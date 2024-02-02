@@ -103,14 +103,14 @@ from the above structure:
 2. install `golang`
 3. install `golang-migrate` 
  [click here](https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md)
-   
-4. run the migrate
-   ```
-    migrate -database "postgres://folduser:folduser_password@localhost:5432/fold_db?sslmode=disable" -path db/migrations/ up
-   ```
-5. run docker-compose
+
+4. run docker-compose
    ```
    docker-compose up
+   ```
+5. run the migrate
+   ```
+    migrate -database "postgres://folduser:folduser_password@localhost:5432/fold_db?sslmode=disable" -path db/migrations/ up
    ```
 6. you are all set. 
 
