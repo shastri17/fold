@@ -32,6 +32,7 @@ func run() {
 		return
 	}
 	err = server.Serve(l)
+	fmt.Println("starting the server")
 	if err != nil {
 		log.Println("error in serving grpc: ", err)
 		return
