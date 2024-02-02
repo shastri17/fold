@@ -165,3 +165,11 @@ from the above structure:
     curl --location 'localhost:8000/v1/userproject?username=test'
      ```
    `slug` & `desc` follows fuzzy search in elasticsearch.
+
+#### Advantages of this architecture:
+   1. Highly scalable.
+2. We can scale individual services like api service or grpc service.
+3. Separation of logic. All business logic will be in grpc service.
+4. Internal calls can be managed with grpc avoiding http latency in internal-service-calls.
+
+Note: Not using any cloud deployments, all the required services are dockerized. We can simply leverage it to any cloud.
