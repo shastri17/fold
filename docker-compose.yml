@@ -1,0 +1,97 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    hostname: postgres
+    env_file: .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.17'
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - network.host=127.0.0.1
+      - http.host=0.0.0.0
+    ports:
+      - "9200:9200"
+      - "9301:9300"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  redis:
+    image: redis
+    command: redis-server --requirepass redis_master123
+
+  pgsync:
+    build:
+      context: pgsync
+      dockerfile: Dockerfile
+    command: ./runserver.sh
+    sysctls:
+      - net.ipv4.tcp_keepalive_time=200
+      - net.ipv4.tcp_keepalive_intvl=200
+      - net.ipv4.tcp_keepalive_probes=5
+    labels:
+      org.label-schema.name: "pgsync"
+      org.label-schema.description: "Postgres to Elasticsearch sync"
+      com.label-schema.service-type: "daemon"
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    environment:
+      - PG_USER=folduser
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_PASSWORD=folduser_password
+      - LOG_LEVEL=INFO
+      - ELASTICSEARCH_PORT=9200
+      - ELASTICSEARCH_SCHEME=http
+      - ELASTICSEARCH_HOST=elasticsearch
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_AUTH=redis_master123
+      - ELASTICSEARCH=true
+
+  kibana:
+    image: 'docker.elastic.co/kibana/kibana:7.17.17'
+    ports:
+      - "5601:5601"
+    hostname: kibana
+    depends_on:
+      - elasticsearch
+
+  httpservice:
+    build:
+      context: .
+      dockerfile: DockerfileApi
+    hostname: httpservice
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgsync
+
+  grpcservice:
+    build:
+      context: .
+      dockerfile: DockerfileGrpc
+    hostname: grpcservice
+    ports:
+      - "8001:8001"
+    depends_on:
+      - pgsync
+
+volumes:
+  pgdata:
+    driver: local
+  esdata:
+    driver: local
+
+

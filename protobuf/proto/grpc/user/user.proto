@@ -1,0 +1,57 @@
+syntax = "proto3";
+package fold.protobuf.grpc.user;
+
+option go_package = "fold/protobuf/golang/grpc/user";
+
+message GetUserProjectRequest {
+  string field = 1;
+  string value = 2;
+}
+
+message GetUserProjectResponse {
+  repeated Project projects = 1;
+}
+
+message UserObj {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Project {
+  int32 id = 1;
+  string name = 2;
+  string slug = 3;
+  string description=4;
+  repeated HashTag hashtags = 5;
+  repeated UserObj user = 6;
+}
+
+message HashTag {
+  int32 id = 1;
+  string name = 2;
+}
+
+message CreateUserRequest{
+  string name =1 ;
+
+}
+
+
+message CreateUserResponse{
+    int32 id = 1;
+    string name = 2;
+    string created_at = 3;
+}
+message LinkProjectRequest {
+  int32 user_id = 1;
+  repeated int32 project_ids = 2;
+}
+
+message LinkProjectResponse{
+
+}
+service User {
+  rpc GetUserProject(GetUserProjectRequest) returns (GetUserProjectResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc LinkProject(LinkProjectRequest) returns(LinkProjectResponse);
+}

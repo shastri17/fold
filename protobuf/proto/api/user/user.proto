@@ -1,0 +1,13 @@
+syntax = "proto3";
+package fold.protobuf.api.user;
+
+option go_package = "fold/protobuf/golang/api/user";
+
+
+message CreateUserRequest {
+  string name = 1;
+}
+
+message LinkProjectRequest {
+  repeated int32 project_ids = 1;
+}

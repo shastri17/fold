@@ -1,0 +1,13 @@
+syntax = "proto3";
+package fold.protobuf.api.project;
+
+option go_package = "fold/protobuf/golang/api/project";
+
+message CreateProjectRequest{
+  string name = 1;
+  string description = 2;
+}
+
+message LinkHashTagRequest {
+  repeated int32 hashtag_ids = 1;
+}

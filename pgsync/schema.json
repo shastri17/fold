@@ -1,0 +1,43 @@
+[
+  {
+    "database": "fold_db",
+    "index": "fold",
+    "nodes": {
+      "table": "projects",
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "slug"
+      ],
+      "children": [
+        {
+          "table": "users",
+          "columns": [
+            "id", "name"
+          ],
+          "relationship": {
+            "type": "one_to_many",
+            "variant": "object",
+            "through_tables": [
+              "user_projects"
+            ]
+          }
+        },
+        {
+          "table": "hashtags",
+          "columns": [
+            "id", "name"
+          ],
+          "relationship": {
+            "type": "one_to_many",
+            "variant": "object",
+            "through_tables": [
+              "project_hashtags"
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

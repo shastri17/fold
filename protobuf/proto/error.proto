@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "fold/protobuf/golang";
+
+
+// add all the error code here.
+enum ErrorCode {
+  EC_UNSPECIFIED = 0;
+  EC_INTERNAL_SERVER_ERROR = 1;
+}

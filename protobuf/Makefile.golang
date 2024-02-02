@@ -1,0 +1,35 @@
+build-deps:
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+build-proto-root: build-deps
+	mkdir -p ./golang
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/*.proto
+
+build-proto-user: build-proto-root
+	mkdir -p ./golang/grpc/user
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/grpc/user/*.proto
+
+build-proto-api-user: build-proto-root
+	mkdir -p ./golang/api/user
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/api/user/*.proto
+
+build-proto-project: build-proto-root
+	mkdir -p ./golang/grpc/user
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/grpc/project/*.proto
+
+build-proto-api-project: build-proto-root
+	mkdir -p ./golang/api/project
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/api/project/*.proto
+
+build-proto-hashtag: build-proto-root
+	mkdir -p ./golang/grpc/hashtag
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/grpc/hashtag/*.proto
+
+
+build-proto-api-hashtag: build-proto-root
+	mkdir -p ./golang/api/hashtag
+	protoc --go_out=paths=source_relative:./golang/ --go-grpc_out=require_unimplemented_servers=false,paths=source_relative:./golang --proto_path=./proto ./proto/api/hashtag/*.proto
+
+
+build-proto-all: build-proto-root build-proto-user build-proto-api-user build-proto-api-project build-proto-project build-proto-hashtag build-proto-api-hashtag

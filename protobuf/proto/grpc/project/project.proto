@@ -1,0 +1,30 @@
+syntax = "proto3";
+package fold.protobuf.grpc.project;
+
+option go_package = "fold/protobuf/golang/grpc/project";
+
+message CreateProjectRequest{
+  string name = 1;
+  string description = 2;
+}
+
+message CreateProjectResponse{
+  int32 id = 1;
+  string name = 2;
+  string slug = 3;
+  string description = 4;
+}
+
+message LinkHashtagRequest{
+  int32 project_id = 1;
+  repeated int32 hashtag_ids = 2;
+}
+
+message LinkHashtagResponse{
+
+}
+
+service Project {
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
+  rpc LinkHashtag(LinkHashtagRequest) returns (LinkHashtagResponse);
+}

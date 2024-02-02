@@ -1,0 +1,17 @@
+syntax = "proto3";
+package fold.protobuf.grpc.hashtag;
+
+option go_package = "fold/protobuf/golang/grpc/hashtag";
+
+message CreateHashTagRequest{
+  string name = 1;
+}
+
+message CreateHashTagResponse{
+  int32 id =1 ;
+  string name =2;
+}
+
+service Hashtag{
+  rpc CreateHashTag(CreateHashTagRequest) returns (CreateHashTagResponse);
+}
