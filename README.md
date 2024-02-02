@@ -96,14 +96,14 @@ from the above structure:
 7. `.env` - contains the environment for postgres sql - (you can change it)
 ### Pre requisites
 1. `docker`, `golang`, `golang-migrate`
+2. clone this repo. 
 
 ### Installation
 1. install `docker`
 2. install `golang`
 3. install `golang-migrate` 
-    ```
-   https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md
-   ```
+ [click here](https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md)
+   
 4. run the migrate
    ```
     migrate -database "postgres://folduser:folduser_password@localhost:5432/fold_db?sslmode=disable" -path db/migrations/ up
